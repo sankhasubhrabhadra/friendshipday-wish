@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Friendship Day! 💖 | A Secret Gift For You</title>
+  
+  <!-- Google Fonts: Fredoka & Quicksand -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Floating Background Particles Canvas -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Audio Toggle Top Bar -->
+  <div class="top-bar">
+    <button id="musicToggle" class="clay-pill-btn">
+      <span id="musicIcon">🎵</span> <span id="musicText">Sound On</span>
+    </button>
+  </div>
+
+  <!-- Main Container -->
+  <main class="app-container">
+    
+    <!-- ==================== GATEKEEPER / QUESTION STATES ==================== -->
+    <div id="gatekeeperCard" class="clay-card active-card">
+      
+      <!-- STAGE 0: Initial Question -->
+      <div id="stage-init" class="stage active-stage">
+        <div class="character-wrapper clay-avatar">
+          <img id="imgInit" src="assets/waiting.jpg" alt="Waiting Cute Cartoon" class="clay-img">
+        </div>
+        <h1 class="clay-title">Hey <span class="friend-name-text">Bestie</span>! 👋</h1>
+        <p class="clay-subtitle">I created a secret Friendship Day surprise for you... Do you want to open your gift? 🎁✨</p>
+        
+        <div class="btn-group">
+          <button id="btnYesInit" class="clay-btn yes-btn">YES! 💖</button>
+          <button id="btnNo1" class="clay-btn no-btn">No 🥺</button>
+        </div>
+      </div>
+
+      <!-- STAGE NO 1: Shocked / How Dare You -->
+      <div id="stage-no-1" class="stage">
+        <div class="character-wrapper clay-avatar anger-shake-light">
+          <img src="assets/angry1.jpg" alt="Shocked Cartoon" class="clay-img">
+          <span class="speech-bubble">HOW DARE YOU?! 😤</span>
+        </div>
+        <h2 class="clay-title anger-text">Wait... WHAT?! 🥺</h2>
+        <p class="clay-subtitle">Did you really just tap NO to your bestie? Hmph! My heart is breaking right now... 💔</p>
+        
+        <div class="btn-group">
+          <button id="btnBackToYes1" class="clay-btn yes-btn pulse-glow">I'm Sorry! YES! 💖</button>
+          <button id="btnNo2" class="clay-btn no-btn">Still No... 😤</button>
+        </div>
+      </div>
+
+      <!-- STAGE NO 2: Super Angry -->
+      <div id="stage-no-2" class="stage">
+        <div class="character-wrapper clay-avatar anger-shake-heavy">
+          <img src="assets/angry2.jpg" alt="Super Angry Cartoon" class="clay-img">
+          <span class="speech-bubble anger-bubble">ARE YOU SERIOUS RN?! 😡💥</span>
+        </div>
+        <h2 class="clay-title angry-red-text">UNBELIEVABLE!! 😤🔥</h2>
+        <p class="clay-subtitle">I spent hours crafting this secret surprise for you and you keep saying NO?! Look at my angry face! 😾</p>
+        
+        <div class="btn-group">
+          <button id="btnBackToYes2" class="clay-btn yes-btn pulse-glow">Okay fine, YES! 💕</button>
+          <button id="btnNo3" class="clay-btn no-btn runaway-btn">No Way! 😜</button>
+        </div>
+      </div>
+
+      <!-- STAGE NO 3: Maximum Dramatic Anger / Crying -->
+      <div id="stage-no-3" class="stage">
+        <div class="character-wrapper clay-avatar anger-shake-extreme">
+          <img src="assets/angry2.jpg" alt="Maximum Angry Crying" class="clay-img dramatic-filter">
+          <span class="speech-bubble crying-bubble">FINE! CRYING IN CORNER 😭💔</span>
+        </div>
+        <h2 class="clay-title angry-red-text">YOU MONSTER! 😭</h2>
+        <p class="clay-subtitle">Just tap YES already! You know you want to see your gift! 🥺👉👈</p>
+        
+        <div class="btn-group vertical-stack">
+          <button id="btnBackToYes3" class="clay-btn yes-btn mega-btn pulse-glow">YES YES YES! 💖✨</button>
+          <button id="btnNoDodger" class="clay-btn no-btn tiny-btn">No...</button>
+        </div>
+      </div>
+
+      <!-- STAGE YES: I Knew It / Happy Reveal Button -->
+      <div id="stage-yes-reveal" class="stage">
+        <div class="character-wrapper clay-avatar happy-bounce">
+          <img src="assets/happy.jpg" alt="Super Happy Cartoon" class="clay-img">
+          <span class="speech-bubble happy-bubble">I KNEW IT!! 🥳💖</span>
+        </div>
+        <h2 class="clay-title happy-green-text">YAYYY! 🎉✨</h2>
+        <p class="clay-subtitle">I knew you couldn't say no to me! Your secret Friendship Day gift is officially unlocked! 🧸💌</p>
+        
+        <button id="btnStartGift" class="clay-btn start-gift-btn pulse-glow">Open Your Gift 🎁✨</button>
+      </div>
+
+    </div>
+
+    <!-- ==================== SLIDE SHOW JOURNEY ==================== -->
+    <div id="slidesCard" class="clay-card hidden-card">
+      
+      <!-- Slide Progress Dots -->
+      <div class="slide-progress">
+        <div class="dot active-dot" data-slide="0"></div>
+        <div class="dot" data-slide="1"></div>
+        <div class="dot" data-slide="2"></div>
+        <div class="dot" data-slide="3"></div>
+      </div>
+
+      <!-- Slide Container -->
+      <div class="slides-viewport">
+        
+        <!-- SLIDE 1 -->
+        <div class="slide-content active-slide" id="slide-0">
+          <div class="character-wrapper clay-avatar float-soft">
+            <img src="assets/slide1.jpg" alt="Slide 1 Cute Character" class="clay-img">
+          </div>
+          <span class="clay-badge">Secret Card 1 of 3 💌</span>
+          <h2 class="clay-title">Happy Friendship Day! 🌟</h2>
+          <p class="slide-body-text">
+            To <strong class="friend-name-text">my Bestie</strong>,<br>
+            Thank you for being the most chaos-loving, hilarious, and genuinely incredible person in my life! Life is 100x brighter with you around! 💖
+          </p>
+          <button class="clay-btn yes-btn btn-next-slide">Next Secret ➡️</button>
+        </div>
+
+        <!-- SLIDE 2 -->
+        <div class="slide-content" id="slide-1">
+          <div class="character-wrapper clay-avatar float-soft">
+            <img src="assets/slide2.jpg" alt="Slide 2 Cute Character" class="clay-img">
+          </div>
+          <span class="clay-badge alt-badge">Secret Card 2 of 3 🧋</span>
+          <h2 class="clay-title">Partner in Crime 👯‍♂️</h2>
+          <p class="slide-body-text">
+            From endless gossip sessions to bad jokes and sudden cravings, there's nobody else I'd rather share these crazy memories with! 
+            <br><em>(And yes, I still remember all your embarrassing stories! 😂)</em>
+          </p>
+          <button class="clay-btn yes-btn btn-next-slide">Next Secret ➡️</button>
+        </div>
+
+        <!-- SLIDE 3 -->
+        <div class="slide-content" id="slide-2">
+          <div class="character-wrapper clay-avatar float-soft">
+            <img src="assets/slide3.jpg" alt="Slide 3 Cute Character" class="clay-img">
+          </div>
+          <span class="clay-badge alt-badge-2">Secret Card 3 of 3 📜</span>
+          <h2 class="clay-title">Best Friends Forever 🤙</h2>
+          <p class="slide-body-text">
+            Promise me we'll stay best friends forever — even when we get old, wrinkly, and keep repeating the exact same stories over and over! 👵👴💖
+          </p>
+          <button class="clay-btn yes-btn btn-next-slide">Final Wish 🎉</button>
+        </div>
+
+        <!-- SLIDE 4: ENDING -->
+        <div class="slide-content" id="slide-3">
+          <div class="character-wrapper clay-avatar celebration-bounce">
+            <img src="assets/ending.jpg" alt="Ending Cute Character" class="clay-img">
+          </div>
+          <span class="clay-badge final-badge">Grand Finale ✨</span>
+          <h2 class="clay-title happy-green-text">HAPPY FRIENDSHIP DAY! 🥳🎉</h2>
+          <p class="slide-body-text">
+            Sending you giant hugs, smiles, and tons of love today! <br>
+            Forever & Always, Besties! 🧸💌
+          </p>
+
+          <div class="btn-group ending-btn-group">
+            <button id="btnReplay" class="clay-btn yes-btn pulse-glow">Replay Gift 🔄💖</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
